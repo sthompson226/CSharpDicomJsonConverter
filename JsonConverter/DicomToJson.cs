@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Web;
-using System.Web.Util;
 using Dicom;
 using Dicom.IO.Buffer;
 
@@ -118,7 +117,11 @@ namespace JsonConverter
                 if (element.Length <= _maxBytes)
                 {
                     v.Append(" [");
-                    if (vr != "PN")
+                    if (vr == "OB" || vr == "OW" || vr == "OF")
+                    {
+                        ToBinHex(v, element);
+                    }
+                    else if (vr != "PN")
                     {
                         var vals = element.Get<string[]>();
                         int count = 0;
@@ -321,6 +324,13 @@ namespace JsonConverter
                     }
                 }
                 return brace;
+            }
+
+            private void ToBinHex(StringBuilder sb, DicomElement element)
+            {
+                var b = element.Buffer.Data;
+                var s = System.Convert.ToBase64String(element.Buffer.Data);
+                sb.Append(s);
             }
         }
     }
