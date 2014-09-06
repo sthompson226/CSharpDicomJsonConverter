@@ -14,11 +14,17 @@ namespace JsonFileToDicom
     {
         static void Main(string[] args)
         {
+            var output = @"test.dcm";
             var s = JsonToDicom.Load(args[0]);
 
             var df = new DicomFile(s);
-            
-            df.Save(@"C:\temp\junk.dcm");
+
+            if (args.Length > 1)
+            {
+                output = args[1];
+            }
+
+            df.Save(output);
             Console.Write(s);
             Console.WriteLine("Done! Press any key.");
             Console.ReadKey();

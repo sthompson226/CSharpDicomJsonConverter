@@ -85,10 +85,17 @@ namespace JsonConverter
                     break;
                 }
                 case "FL":
-                case "OF":
                 {
                     var result = strValues.Select(float.Parse).ToArray();
                     dataSet.Add(dcmTag, result);
+                    break;
+                }
+                case "PN":
+                {
+                    // Note that Multiname fields are enforced in the new DICOM Web Standard
+                    var n = JObject.Parse(strValues[0]);
+                    var aname = (string) n["Alphabetic"];
+                    dataSet.Add(dcmTag, aname);
                     break;
                 }
                 case "SL":
@@ -115,6 +122,19 @@ namespace JsonConverter
                     dataSet.Add(dcmTag, result);
                     break;
                 }
+
+                case "OB":
+                case "OW":
+                case "OF":
+                {
+                    if (strValues.Length > 0)
+                    {
+                        var buff = System.Convert.FromBase64String(strValues[0]);
+                        dataSet.Add(dcmTag, buff);
+                    }
+                    break;
+                }
+
 
                 default:
                 {

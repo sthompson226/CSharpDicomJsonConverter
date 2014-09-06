@@ -295,6 +295,9 @@ namespace JsonConverter
                 {
                     v = v.Replace("\\", "\\\\");
                 }
+
+                v = v.Replace("'", "\'");
+                v = v.Replace("\"", "\\\"");
                 var v2 = HttpUtility.HtmlDecode(v);
                 return "\"" + v2 + "\"";
             }
@@ -328,9 +331,11 @@ namespace JsonConverter
 
             private void ToBinHex(StringBuilder sb, DicomElement element)
             {
-                var b = element.Buffer.Data;
+                var b = element.Buffer.Data;       
                 var s = System.Convert.ToBase64String(element.Buffer.Data);
+                sb.Append("\"");
                 sb.Append(s);
+                sb.Append("\"");
             }
         }
     }
