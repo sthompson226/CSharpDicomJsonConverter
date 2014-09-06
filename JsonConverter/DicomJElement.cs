@@ -10,6 +10,7 @@ namespace JsonConverter
     public class DicomJElement
     {
         public String Tag = "";
+        public String Vr = "";
         public JObject Element;
         public List<Dictionary<string, DicomJElement>> sqElements = new List<Dictionary<string, DicomJElement>>();
 
@@ -26,6 +27,17 @@ namespace JsonConverter
             if (count == 0 || index >= count) return null;
             string v = vals[index].ToString();
             return v;
+        }
+
+        public String[] GetStrings()
+        {
+            JObject elm = Element;
+
+            if (elm == null) return null;
+            JToken vals = elm["Values"];
+            int count = vals.Count();
+
+            return vals.Select(v => v.ToString()).ToArray();
         }
 
         public Double GetDouble(int index = 0)

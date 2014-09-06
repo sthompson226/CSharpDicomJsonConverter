@@ -47,9 +47,10 @@ namespace JsonConverter
                 string vr = item.Value["vr"].ToString();
                 var el = new DicomJElement
                 {
-                    Element = item.Value
+                    Element = item.Value,
+                    Vr = vr
                 };
-                
+
                 if (vr == "SQ")
                 {
                     JToken vals = item.Value["Values"];
