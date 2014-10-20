@@ -4,7 +4,7 @@ using System.Linq;
 using Newtonsoft.Json.Linq;
 using Dicom;
 
-namespace JsonConverter
+namespace DicomJsonConverter
 {
 
     public class DicomJElement
@@ -18,15 +18,28 @@ namespace JsonConverter
         {
         }
 
-        public String GetString(int index = 0)
+        public String GetString(int index = 0, bool literalName = false)
         {
+            Boolean personName = false;
             JObject elm = Element;
             if (elm == null) return null;
             JToken vals = elm["Values"];
+            if (Vr.ToLower() == "pn") personName = true;
             int count = vals.Count();
             if (count == 0 || index >= count) return null;
-            string v = vals[index].ToString();
-            return v;
+            if (personName == false)
+            {
+                string v = vals[index].ToString();
+                return v;
+            }
+
+            if (literalName)
+            {
+                return "";
+            }
+
+            var an = vals[0]["Alphabetic"];
+            return an.ToString();
         }
 
         public String[] GetStrings()

@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using Dicom;
 using Newtonsoft.Json.Linq;
 
-namespace JsonConverter
+namespace DicomJsonConverter
 {
     public class JsonToDicom
     {

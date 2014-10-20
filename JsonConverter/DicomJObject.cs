@@ -6,7 +6,7 @@ using Dicom;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace JsonConverter
+namespace DicomJsonConverter
 {
     public class DicomJObject
     {

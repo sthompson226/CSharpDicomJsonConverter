@@ -5,7 +5,7 @@ using System.Web;
 using Dicom;
 using Dicom.IO.Buffer;
 
-namespace JsonConverter
+namespace DicomJsonConverter
 {
     public class DicomToJson
     {
@@ -17,19 +17,21 @@ namespace JsonConverter
         };
 
         public static String Convert(String fileName, OutputFormat format = OutputFormat.AddLinefeeds,
-            int excludeElementsLargerThanBytes = 1024)
+            int excludeElementsLargerThanBytes = 1024, Boolean addTagInfo = false)
         {
             var sb = new StringBuilder();
             DicomFile file = DicomFile.Open(fileName);
-            new DicomDatasetWalker(file.Dataset).Walk(new ToStringWalker(sb, format, excludeElementsLargerThanBytes));
+            new DicomDatasetWalker(file.Dataset).Walk(new ToStringWalker(sb, format, 
+                excludeElementsLargerThanBytes, addTagInfo));
             return sb.ToString();
         }
 
         public static String Convert(DicomDataset dataSet, OutputFormat format = OutputFormat.AddLinefeeds,
-            int excludeElementsLargerThanBytes = 1024)
+            int excludeElementsLargerThanBytes = 1024, Boolean addTagInfo = false)
         {
             var sb = new StringBuilder();
-            new DicomDatasetWalker(dataSet).Walk(new ToStringWalker(sb, format, excludeElementsLargerThanBytes));
+            new DicomDatasetWalker(dataSet).Walk(new ToStringWalker(sb, format, 
+                excludeElementsLargerThanBytes, addTagInfo));
             return sb.ToString();
         }
 
@@ -42,9 +44,12 @@ namespace JsonConverter
             private readonly Boolean _qidoBrace;
             private readonly StringBuilder _sb;
             private int _level;
+            private bool _addTagInfo;
 
-            public ToStringWalker(StringBuilder sb, OutputFormat format, int maxElementSizeBytes = 1024)
+            public ToStringWalker(StringBuilder sb, OutputFormat format, 
+                int maxElementSizeBytes = 1024, Boolean addTagInfo = false)
             {
+                _addTagInfo = addTagInfo;
                 _maxBytes = maxElementSizeBytes;
                 if ((format & OutputFormat.AddLinefeeds) != 0) _crlf = "\r\n";
                 if ((format & OutputFormat.QIDOFormat) != 0) _qidoBrace = true;
@@ -101,17 +106,20 @@ namespace JsonConverter
                 }
 
                 string tag = String.Format("{0:X04}{1:X04}", element.Tag.Group, element.Tag.Element);
-                if (tag == "0040A30A")
-                {
-                }
+ 
                 v.AppendFormat("{0}\"{1}\": ", Indent, tag);
                 v.Append(Brace("{", false));
                 v.Append(_crlf);
                 string vr = element.ValueRepresentation.ToString();
-                bool isString = element.ValueRepresentation.IsString;
-                if (vr == "AT") isString = true;
+                bool isString = element.ValueRepresentation.IsString || vr == "AT";
                 v.AppendFormat("{0}{1}:{2},", Indent, EnQuote("vr"), EnQuote(vr));
                 v.Append(_crlf);
+                if (_addTagInfo)
+                {
+                    var desc = element.Tag.DictionaryEntry.Keyword;
+                    v.AppendFormat("{0}{1}:{2},", Indent, EnQuote("desc"), EnQuote(desc));
+                    v.Append(_crlf);
+                }
                 v.AppendFormat("{0}{1}:", Indent, EnQuote("Values"));
 
                 if (element.Length <= _maxBytes)
@@ -211,6 +219,13 @@ namespace JsonConverter
                 // vr = ""
                 v.AppendFormat("{0}{1}:{2},", Indent, EnQuote("vr"), EnQuote(sequence.ValueRepresentation.ToString()));
                 v.Append(_crlf);
+
+                if (_addTagInfo)
+                {
+                    var desc = sequence.Tag.DictionaryEntry.Keyword;
+                    v.AppendFormat("{0}{1}:{2},", Indent, EnQuote("desc"), EnQuote(desc));
+                    v.Append(_crlf);
+                }
                 v.AppendFormat("{0}{1}:", Indent, EnQuote("Values"));
 
                 v.Append(" [");
