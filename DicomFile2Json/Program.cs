@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
-using JsonConverter;
+using DicomJsonConverter;
+
 
 namespace DicomFile2Json
 {

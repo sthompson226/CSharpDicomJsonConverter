@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Markup;
 using Dicom;
-using Newtonsoft.Json;
-using JsonConverter;
-using Newtonsoft.Json.Linq;
+using DicomJsonConverter;
+using JsonToDicom;
+
 
 namespace JsonToDicom
 {

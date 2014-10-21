@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dicom;
 using Dicom.IO.Writer;
-using JsonConverter;
+using DicomJsonConverter;
 using Dicom.IO;
 
 namespace JsonFileToDicom
@@ -15,7 +15,7 @@ namespace JsonFileToDicom
         static void Main(string[] args)
         {
             var output = @"test.dcm";
-            var s = JsonToDicom.Load(args[0]);
+            var s = DicomJsonConverter.JsonToDicom.Load(args[0]);
 
             var df = new DicomFile(s);
 

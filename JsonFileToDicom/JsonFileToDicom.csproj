@@ -57,9 +57,17 @@
       <Project>{d6e309b0-4837-459e-8c85-abc268440d62}</Project>
       <Name>DICOM</Name>
     </ProjectReference>
-    <ProjectReference Include="..\JsonConverter\JsonConverter.csproj">
+    <ProjectReference Include="..\DicomFile2Json\DicomFile2Json.csproj">
+      <Project>{b41db6f9-da28-465a-b1bf-452ba6184217}</Project>
+      <Name>DicomFile2Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JsonConverter\DicomJsonConverter.csproj">
       <Project>{79dc4da2-875e-46b5-8746-42b9c7eed0d2}</Project>
-      <Name>JsonConverter</Name>
+      <Name>DicomJsonConverter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JsonToDicom\DicomJsonQuery.csproj">
+      <Project>{6f3793a0-1c02-4340-a450-e10ac5b6b7ce}</Project>
+      <Name>DicomJsonQuery</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -62,12 +62,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JsonConverter\JsonConverter.csproj">
-      <Project>{79DC4DA2-875E-46B5-8746-42B9C7EED0D2}</Project>
-      <Name>JsonConverter</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="ChangeLog.md" />
     <None Include="packages.config" />
@@ -75,6 +69,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="License.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JsonConverter\DicomJsonConverter.csproj">
+      <Project>{79DC4DA2-875E-46B5-8746-42B9C7EED0D2}</Project>
+      <Name>DicomJsonConverter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
