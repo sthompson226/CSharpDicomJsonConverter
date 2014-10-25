@@ -53,7 +53,7 @@ namespace DicomJsonConverter
             {
                 var sqItems = new List<DicomDataset>();
 
-                foreach (var jSqItem in jElement.sqElements)
+                foreach (var jSqItem in jElement.sqItems)
                 {
                     var sqItem = new DicomDataset();
 

@@ -12,15 +12,18 @@ namespace DicomJsonConverter
     {
         private readonly Dictionary<String, DicomJElement> _dicomJElements = new Dictionary<string, DicomJElement>();
 
-        public Dictionary<String, DicomJElement> DicomJElements { get { return _dicomJElements;  } }
-
         public DicomJObject(String json)
         {
-            this.Parse(json);
+            Parse(json);
         }
 
         public DicomJObject()
         {
+        }
+
+        public Dictionary<String, DicomJElement> DicomJElements
+        {
+            get { return _dicomJElements; }
         }
 
         public String Tag(DicomTag tag)
@@ -59,7 +62,7 @@ namespace DicomJsonConverter
                         var sqo = new DicomJObject();
                         string vitem = v.ToString();
                         Dictionary<string, DicomJElement> e2 = sqo.Parse(vitem);
-                        el.sqElements.Add(e2);
+                        el.sqItems.Add(e2);
                     }
                 }
 
@@ -82,7 +85,7 @@ namespace DicomJsonConverter
             if (_dicomJElements == null) return null;
             if (_dicomJElements.ContainsKey(tag) == false) return null;
             DicomJElement sq = _dicomJElements[tag];
-            Dictionary<string, DicomJElement> item = sq.sqElements[itemNo];
+            Dictionary<string, DicomJElement> item = sq.sqItems[itemNo];
             DicomJElement el = item[itemTag];
             return el;
         }
