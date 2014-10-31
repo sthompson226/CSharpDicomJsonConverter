@@ -3,10 +3,12 @@ CSharpDicomJsonConverter
 Manabu Tokunaga
 
 # Latest Update
-## 6 September 2014 master Commit
+## 30 October 2014
 
+* It can now include the DICOM dictionary definition optionally when generating JSON as "desc:" field
+* Release build mode added and fixed the target CPU to Any
 * This kit now supports conversion in both from DICOM to JSON, and also JSON to DICOM directions.
-* Added Base64 Encoding of OB, OW, and OF data buffers. 
+* Added Base64 Encoding of OB, OW, and OF data buffers. Though I would not recommend storing large files in JSON.
 
 # About This Project
 
@@ -23,7 +25,7 @@ The output should meet the QIDO-RS SearchForStudies response, which is described
 
 * Use the Visual Studio 2013
 * Add NuGet so that fo-dicom is pulled from the NuGet system.
-* Product is originally targeted for NET Framework 4.5 but does not use any specific feature required later than .NET 3.5, therefore you should be able to re-target it to an earlier version of the framework.
+* This project is targeted to .NET Framework 4.5. It can probably go to .NET 4.0, a fo-dicom dependency.
 
 # Questions and Bug Reports
 
