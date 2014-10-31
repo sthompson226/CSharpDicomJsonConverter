@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>bb7aa330</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,7 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NLog">
+    <Reference Include="Dicom, Version=1.0.38.0, Culture=neutral, PublicKeyToken=3a13f649e28eb09a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\fo-dicom.1.0.38\lib\net40\Dicom.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=3.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NLog.3.0.0.0\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -50,13 +56,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ChangeLog.md" />
     <None Include="packages.config" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\fo-dicom\DICOM\DICOM.csproj">
-      <Project>{d6e309b0-4837-459e-8c85-abc268440d62}</Project>
-      <Name>DICOM</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DicomFile2Json\DicomFile2Json.csproj">
       <Project>{b41db6f9-da28-465a-b1bf-452ba6184217}</Project>
       <Name>DicomFile2Json</Name>
@@ -70,7 +74,17 @@
       <Name>DicomJsonQuery</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="License.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\fo-dicom.1.0.38\build\fo-dicom.targets" Condition="Exists('..\packages\fo-dicom.1.0.38\build\fo-dicom.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\fo-dicom.1.0.38\build\fo-dicom.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\fo-dicom.1.0.38\build\fo-dicom.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
